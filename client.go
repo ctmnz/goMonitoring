@@ -1,19 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"encoding/json"
 )
 
 type ServerInfo struct {
-        ServerLoad []string
-        ServerTime string
+	ServerLoad []string
+	ServerTime string
 	ServerName string
 }
-
-
 
 func getHTTPContent(url string, website string, c chan ServerInfo) {
 	var sInfo ServerInfo
@@ -23,9 +21,6 @@ func getHTTPContent(url string, website string, c chan ServerInfo) {
 	sInfo.ServerName = website
 	c <- sInfo
 }
-
-
-
 
 func printResult(sInfo ServerInfo) {
 	fmt.Printf("name: %v\ntime: %v\nLoad: %v \n\n", sInfo.ServerName, sInfo.ServerTime, sInfo.ServerLoad)

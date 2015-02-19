@@ -4,23 +4,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-//	"strings"
 	"encoding/json"
-//	"time"
 )
-
-/*
-type ServerInfo struct {
-	ServerName string
-	ServerLoad string
-	ServerTime string
-	ServerResponseTime int64
-}
-*/
 
 type ServerInfo struct {
         ServerLoad []string
         ServerTime string
+	ServerName string
 }
 
 
@@ -30,6 +20,7 @@ func getHTTPContent(url string, website string, c chan ServerInfo) {
 	resp, _ := http.Get(url)
 	body, _ := ioutil.ReadAll(resp.Body)
 	json.Unmarshal(body, &sInfo)
+	sInfo.ServerName = website
 	c <- sInfo
 }
 
@@ -37,8 +28,7 @@ func getHTTPContent(url string, website string, c chan ServerInfo) {
 
 
 func printResult(sInfo ServerInfo) {
-	fmt.Printf("time: %v\nLoad: %v \n\n", sInfo.ServerTime, sInfo.ServerLoad)
-//	fmt.Println("Json marshalized server object: ", string(si) ," \n")
+	fmt.Printf("name: %v\ntime: %v\nLoad: %v \n\n", sInfo.ServerName, sInfo.ServerTime, sInfo.ServerLoad)
 
 }
 
